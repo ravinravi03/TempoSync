@@ -1,0 +1,26 @@
+# Dependency directories
+/node_modules
+
+# Build files
+/build
+/dist
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# Cache
+.cache
+
+# IDE files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
