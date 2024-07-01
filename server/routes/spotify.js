@@ -179,6 +179,89 @@ router.get("/search", async(req,res) => {
     }
 })
 
+router.post("/playlist", async (req,res) => {
+    const accessToken = req.headers.authorization.split(' ')[1];
+
+    if(!accessToken){
+        return res.status(401).json({error:'No access token found'})
+    }
+
+    const spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(accessToken);
+
+    const { playlistName, description, isPublic } = req.body;
+
+    const options = {
+        description: description || 'A playlist created by TempoSync',
+        public: isPublic === 'true'
+    };
+
+    console.log(options)
+
+    spotifyApi.createPlaylist(playlistName,options)
+        .then(data => {
+            res.json(data.body)
+        })
+        .catch(err => {
+            if(err.statusCode === 401){
+                res.status(401).json({error:"Access token invalid"})
+            }else{
+                res.status(500).json({error:"Error creating a playlist"})
+            }
+        });
+})
+
+router.post("/playlist/addTracks", async(req,res) => {
+    const accessToken = req.headers.authorization.split(' ')[1];
+
+    if(!accessToken){
+        return res.status(401).json({error:'No access token found'})
+    }
+
+    const spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(accessToken);
+
+    const {playlistId, tracks} = req.body;
+
+    spotifyApi.addTracksToPlaylist(playlistId, tracks)
+        .then(data => {
+            res.json(data.body)
+        })
+        .catch(err => {
+            if(err.statusCode === 401){
+                res.status(401).json({error:"Access token invalid"})
+            }else{
+                res.status(500).json({error:"Error adding tracks to the playlist"})
+            }
+        });
+})
+
+router.delete("/playlist/removeTracks", async(req,res) => {
+    const accessToken = req.headers.authorization.split(' ')[1];
+
+    if(!accessToken){
+        return res.status(401).json({error:'No access token found'})
+    }
+
+    const spotifyApi = new SpotifyWebApi();
+    spotifyApi.setAccessToken(accessToken);
+
+    const {playlistId, tracks} = req.body;
+
+    spotifyApi.removeTracksFromPlaylist(playlistId, tracks)
+        .then(data => {
+            res.json(data.body)
+        })
+        .catch(err => {
+            if(err.statusCode === 401){
+                res.status(401).json({error:"Access token invalid"})
+            }else{
+                res.status(500).json({error:"Error removing tracks to the playlist"})
+            }
+        });
+})
+
+
 
 
 

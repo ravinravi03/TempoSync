@@ -12,7 +12,8 @@ passport.use(
         {
             clientID: clientID,
             clientSecret: clientSecret,
-            callbackURL: 'http://localhost:5050/login/spotify/callback'
+            callbackURL: 'http://localhost:5050/login/spotify/callback',
+            scope: ['playlist-modify-public', 'playlist-modify-private'],
         },
         function(accessToken,refreshToken,expires_in, profile, done){
             return done(null,{profile, accessToken, refreshToken});

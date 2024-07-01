@@ -3,8 +3,9 @@ import { useGetUserProfile } from '../../hooks/useGetUserProfile';
 import { useGetUserPlaylists } from '../../hooks/useGetUserPlaylists';
 import { getCookie } from '../../utilities/cookieUtils';
 import { useGetTrack } from '../../hooks/useGetTrack';
-import { useGetPlaylistTracks } from '../../hooks/useGetPlaylistTracks';
+import { useGetPlaylistTracks } from '../../hooks/useGetPlaylistTracks.jsx';
 import { useGetSearch } from '../../hooks/useSearch';
+import { useCreatePlaylist } from '../../hooks/useCreatePlaylist.jsx';
 
 const Home = () => {
     const [profileData, setProfileData] = useState([]);
@@ -18,6 +19,12 @@ const Home = () => {
     const [searchValue, setSearchValue] = useState('');
     const [minTempo, setMinTempo] = useState(110);
     const [maxTempo, setMaxTempo] = useState(130);
+
+    const [playlistName, setPlaylistName] = useState('');
+    const [description, setDescription] = useState('');
+    const [isPublic, setIsPublic] = useState(true);
+    const { createPlaylist }  = useCreatePlaylist();
+
   
     const incrementMinTempo = () => {
       setMinTempo((prevMinTempo) => (prevMinTempo !== null ? prevMinTempo + 1 : 1));
@@ -33,6 +40,16 @@ const Home = () => {
   
     const decrementMaxTempo = () => {
       setMaxTempo((prevMaxTempo) => (prevMaxTempo > 1 ? prevMaxTempo - 1 : null));
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const result = await createPlaylist(getCookie('accessToken'), playlistName, description, isPublic);
+            console.log('Playlist created:', result);
+        } catch (error) {
+            console.error('Error creating playlist:', error);
+        }
     };
 
     useEffect(()=>{
@@ -143,6 +160,42 @@ const Home = () => {
                         <button onClick={incrementMaxTempo}>+</button>
                     </div>
                 </div>
+            <div>
+            <form onSubmit={handleSubmit}>
+            <div>
+                <label htmlFor="playlistName">Playlist Name:</label>
+                <input
+                    type="text"
+                    id="playlistName"
+                    value={playlistName}
+                    onChange={(e) => setPlaylistName(e.target.value)}
+                    required
+                />
+            </div>
+            <div>
+                <label htmlFor="description">Description:</label>
+                <input
+                    type="text"
+                    id="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                />
+            </div>
+            <div>
+                <label htmlFor="isPublic">Public:</label>
+                <input
+                    type="checkbox"
+                    id="isPublic"
+                    checked={isPublic}
+                    onChange={(e) => setIsPublic(e.target.checked)}
+                />
+            </div>
+            <button type="submit" disabled={isLoading}>
+                {isLoading ? 'Creating...' : 'Create Playlist'}
+            </button>
+            {error && <p style={{ color: 'red' }}>{error}</p>}
+        </form>
+            </div>
             </div>
         )
     }
