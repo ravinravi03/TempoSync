@@ -1,10 +1,11 @@
 import mongoose from "mongoose";
+import Playlist from "./playlistModel.js";
 
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
     display_name: { type: String, required: true },
-    id: { type: String, required: true, unique: true },
+    id: { type: String, required: true, unique: true, index: true },
     profile_picture: { type: String, required: true },
     draftedPlaylists: [{ type: Schema.Types.ObjectId, ref: 'Playlist' }],
     createdPlaylists: [
@@ -15,6 +16,8 @@ const userSchema = new Schema({
       }
     ]
   });
+
+userSchema.index({ id: 1 }, { unique: true });
 
 
 const User = mongoose.model('User', userSchema);

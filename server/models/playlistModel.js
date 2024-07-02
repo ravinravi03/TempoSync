@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const songSchema = new Schema({
+    song_id: { type: String, required: true},
     album_name: { type: String,required: true},
     song_title: { type: String,required: true},
     duration_ms: { type: Number,required: true},
