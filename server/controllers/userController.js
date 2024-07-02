@@ -64,7 +64,8 @@ try {
 };
 
 export const createDraftedPlaylist = async (req, res) => {
-    const { userId, playlistDetails } = req.body;
+    const userId = req.params.userId;
+    const { playlistDetails } = req.body;
   
     try {
       const { playlist_name, isPublic, description, maxTempo, minTempo, songs } = playlistDetails;
@@ -111,7 +112,8 @@ export const deleteDraftedPlaylist = async (req, res) => {
   };
 
 export const createCreatedPlaylist = async (req, res) => {
-    const { userId, playlistDetails } = req.body;
+    const userId = req.params.userId;
+    const { playlistDetails } = req.body;
   
     try {
       const user = await User.findOneAndUpdate(
