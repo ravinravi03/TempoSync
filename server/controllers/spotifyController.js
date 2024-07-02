@@ -1,7 +1,8 @@
 import SpotifyWebApi from 'spotify-web-api-node';
+import { getCookieValue } from '../encryption/cookieUtils.js';
 
 export const getUserProfile = async(req,res) => {
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -24,7 +25,7 @@ export const getUserProfile = async(req,res) => {
 }
 
 export const getUserPlaylists = async(req,res)=>{
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -49,7 +50,7 @@ export const getUserPlaylists = async(req,res)=>{
 }
 
 export const getTrackWithTempo = async(req,res)=>{
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -82,7 +83,7 @@ export const getTrackWithTempo = async(req,res)=>{
 }
 
 export const getPlaylistTracks = async(req,res) => {
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -117,7 +118,7 @@ export const getPlaylistTracks = async(req,res) => {
 }
 
 export const searchTracksWithTempo = async(req,res) => {
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -176,7 +177,7 @@ export const searchTracksWithTempo = async(req,res) => {
 }
 
 export const createPlaylist = async (req,res) => {
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -208,7 +209,7 @@ export const createPlaylist = async (req,res) => {
 }
 
 export const addTracks = async(req,res) => {
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -233,7 +234,7 @@ export const addTracks = async(req,res) => {
 }
 
 export const removeTracks = async(req,res) => {
-    const accessToken = req.headers.authorization.split(' ')[1];
+    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})

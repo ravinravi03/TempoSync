@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session'
 import passport from 'passport';
 import "../auth/passport.js"
+import { createCookieValue } from '../encryption/cookieUtils.js';
 
 const router = express.Router();
 
@@ -22,13 +23,13 @@ router.get('/spotify/callback',
         failureRedirect: '/login'
     }),
     function(req,res){
-        res.cookie('accessToken', req.user.accessToken, { 
+        res.cookie('accessToken', createCookieValue(req.user.accessToken), { 
             httpOnly: false,
             secure: true,
             maxAge: 86400 * 1000,
             sameSite: 'strict'
         });
-        res.cookie('refreshToken', req.user.refreshToken, { 
+        res.cookie('refreshToken', createCookieValue(req.user.refreshToken), { 
             httpOnly: false,
             secure: true,
             maxAge: 86400 * 1000,
