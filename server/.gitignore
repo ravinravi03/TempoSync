@@ -6,7 +6,7 @@
 /dist
 
 # Environment files
-config.env
+*.env
 
 # Logs
 *.log
