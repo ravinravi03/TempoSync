@@ -10,7 +10,7 @@ To run the backend server, follow these steps:
 2. Ensure you have a `config.env` file with the following variables:
    ```
    ATLAS_URI=<your MongoDB Atlas URI>
-   PORT=<desired port for the server>
+   PORT=5050
    SPOTIFY_CLIENT=<your Spotify client ID>
    SPOTIFY_CLIENT_SECRET=<your Spotify client secret>
    ENCRYPT_KEY=<encryption key for secure data handling>
