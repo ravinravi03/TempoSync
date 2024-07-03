@@ -1,18 +1,15 @@
 import React from 'react'
+import LoginHeader from './LoginHeader';
+import LoginBox from './LoginBox';
 
 const LoginScreen = () => {
 
-    const handleLogin = ()=>{
-        window.location.href = 'http://localhost:5050/login/spotify';
-    }
-
-  return (
-    <div>
-        <button onClick={handleLogin}>
-            Login
-        </button>
-    </div>
-  )
+    return (
+      <div className="bg-on-background min-h-screen flex flex-col items-center justify-between">
+        <LoginHeader />
+        <LoginBox />
+      </div>
+    )
 }
 
 export default LoginScreen
