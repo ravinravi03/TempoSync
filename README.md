@@ -1,6 +1,6 @@
 # TempoSync
 
-TempoSync is a personal project aimed at enhancing my skills with JavaScript and React frameworks.
+TempoSync is a personal project aimed at enhancing my skills with JavaScript and React frameworks. It allows users to create playlists which contains songs of a certain tempo range
 
 ## Running the Backend
 
