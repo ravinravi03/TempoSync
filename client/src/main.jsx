@@ -7,14 +7,19 @@ import {
 import "./index.css";
 import LoginScreen from "./components/LoginPage/LoginScreen";
 import Home from "./components/HomePage/Home";
+import AuthTestComponent from "./components/Testing/AuthTestComponent";
 
 const router = createBrowserRouter([
     {
       path: "/",
+      element: <AuthTestComponent/>
+    },
+    {
+      path: "/login",
       element: <LoginScreen/>,
     },
     {
-      path: "/home",
+      path: "/main/home",
       element: <Home/>,
     },
 

@@ -1,5 +1,9 @@
+import dotenv from 'dotenv'
 import SpotifyWebApi from 'spotify-web-api-node';
-import { getCookieValue } from '../encryption/cookieUtils.js';
+import { createCookieValue, getCookieValue } from '../encryption/cookieUtils.js';
+
+const clientID = process.env.SPOTIFY_CLIENT_ID;
+const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
 export const getUserProfile = async(req,res) => {
     const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
@@ -256,4 +260,33 @@ export const removeTracks = async(req,res) => {
                 res.status(500).json({error:"Error removing tracks to the playlist"})
             }
         });
+}
+
+export const refreshAccessToken = async(req,res) => {
+    const decryptedRefreshToken = getCookieValue(req.body.refreshToken);
+
+    const spotifyApi = new SpotifyWebApi({
+        clientId: clientID,
+        clientSecret: clientSecret,
+        redirectUri: 'http://localhost:5050/login/spotify/callback'
+    });
+
+    spotifyApi.setRefreshToken(decryptedRefreshToken)
+
+    spotifyApi.refreshAccessToken()
+        .then(data =>{
+            res.json(createCookieValue(data.body.access_token));
+        })
+        .catch(err => {
+            if (err.statusCode === 400) {
+                console.log(err);
+                res.status(400).json({ error: 'Invalid refresh token' });
+              } else if (err.statusCode === 401) {
+                res.status(401).json({ error: 'Unauthorized: Refresh token expired or revoked' });
+              } else {
+                console.log(err);
+                res.status(500).json({ error: 'Internal Server Error' });
+              }
+        })
+
 }

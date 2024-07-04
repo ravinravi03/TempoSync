@@ -14,6 +14,10 @@ export const getCookieValue = (encryptedAccessToken) => {
     const accessToken = values[0];
     const initialVec = values[1];
 
-    const decryptedAccessToken = decryptToken({ token: accessToken, iv: initialVec })
+    if(!initialVec||!accessToken){
+        return null;
+    }
+    
+    const decryptedAccessToken = decryptToken({ token: accessToken, iv: initialVec });
     return decryptedAccessToken;
 }

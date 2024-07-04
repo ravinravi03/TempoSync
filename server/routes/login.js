@@ -35,7 +35,7 @@ router.get('/spotify/callback',
             maxAge: 86400 * 1000,
             sameSite: 'strict'
         });
-        res.redirect('http://localhost:5173/home');
+        res.redirect('http://localhost:5173/main/home');
     }
 );
 
