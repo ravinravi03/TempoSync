@@ -6,8 +6,6 @@ const AuthTestComponent = () => {
 
     return (
         <div>
-            <h1>Testing Auth Flow</h1>
-            <p>This component tests the useAuth hook.</p>
         </div>
     );
 };
