@@ -9,19 +9,23 @@ import {
 } from "react-router-dom";
 import "./index.css";
 import LoginScreen from "./components/LoginPage/LoginScreen";
-import Home from "./components/HomePage/Home";
+import MainLayout from "./components/Other/MainLayout";
 import AuthTestComponent from "./components/Testing/AuthTestComponent";
+import HookTesting from "./components/Testing/HookTesting";
+import HomePage from "./components/HomePage/HomePage";
 
 const router = createBrowserRouter([
   {
     path: "/",
     children: [
-      {path: "", element: <AuthTestComponent/>},
+      { path: "", element: <AuthTestComponent /> },
       { path: "login", element: <LoginScreen /> },
+      { path: "testing", element: <HookTesting/> },
       {
         path: "main",
+        element: <MainLayout />,
         children: [
-          { path: "home", element: <Home /> },
+          { path: "home", element: <HomePage /> },
         ]
       },
     ]

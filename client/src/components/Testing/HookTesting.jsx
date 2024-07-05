@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useGetUserProfile } from '../../hooks/useGetUserProfile';
-import { useGetUserPlaylists } from '../../hooks/useGetUserPlaylists';
-import { getCookie } from '../../utilities/cookieUtils';
-import { useGetTrack } from '../../hooks/useGetTrack';
+import { useGetUserProfile } from '../../hooks/useGetUserProfile.jsx';
+import { useGetUserPlaylists } from '../../hooks/useGetUserPlaylists.jsx';
+import { getCookie } from '../../utilities/cookieUtils.js';
+import { useGetTrack } from '../../hooks/useGetTrack.jsx';
 import { useGetPlaylistTracks } from '../../hooks/useGetPlaylistTracks.jsx';
-import { useGetSearch } from '../../hooks/useSearch';
+import { useGetSearch } from '../../hooks/useSearch.jsx';
 import { useCreatePlaylist } from '../../hooks/useCreatePlaylist.jsx';
-import AuthTestComponent from '../Testing/AuthTestComponent.jsx';
+import AuthTestComponent from './AuthTestComponent.jsx';
+import { useAuth } from '../../hooks/auth/useAuth.jsx';
 
-const Home = () => {
+const HookTesting = () => {
     const [profileData, setProfileData] = useState([]);
     const { getUserProfile, isLoading, error } = useGetUserProfile();
     const { getUserPlaylists } = useGetUserPlaylists();
@@ -25,6 +26,7 @@ const Home = () => {
     const [description, setDescription] = useState('');
     const [isPublic, setIsPublic] = useState(true);
     const { createPlaylist } = useCreatePlaylist();
+
 
     const incrementMinTempo = () => {
         setMinTempo((prevMinTempo) => (prevMinTempo !== null ? prevMinTempo + 1 : 1));
@@ -211,4 +213,4 @@ const Home = () => {
     }
 }
 
-export default Home;
+export default HookTesting;
