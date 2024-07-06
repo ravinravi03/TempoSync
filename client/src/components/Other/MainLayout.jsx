@@ -7,7 +7,7 @@ const MainLayout = () => {
     useAuth();
 
     return (
-        <div className="flex h-screen">
+        <div className="flex h-screen bg-on-background">
             <Sidebar />
             <div className="flex-1 bg-on-background overflow-auto">
                 <Outlet />
