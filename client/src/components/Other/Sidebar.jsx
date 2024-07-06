@@ -3,26 +3,11 @@ import { FaHome } from 'react-icons/fa';
 import { getCookie, invalidateCookie } from '../../utilities/cookieUtils';
 import { useGetUserProfile } from '../../hooks/useGetUserProfile';
 import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../../AppContextProvider';
 
 const Sidebar = () => {
-    const {getUserProfile, isLoading, error} = useGetUserProfile();
-    const [profileData, setProfileData] = useState([]);
+    const {userProfile} = useAppContext();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        getUserProfile(getCookie('accessToken'))
-            .then(result => {
-                setProfileData(result);
-                console.log(result);
-            })
-            .catch(error => {
-                console.error("Error occurred", error);
-
-                if (error.response && error.response.status === 404) {
-                    setProfileData([]);
-                }
-            });
-    }, []);
 
     const onLogout = () => {
         invalidateCookie('accessToken')
@@ -34,20 +19,20 @@ const Sidebar = () => {
         navigate('/main/home')
     }
 
-    if(isLoading){
+    if(!userProfile){
         return null;
     }else{
         return (
             <div className="bg-primary text-white w-64 p-4 m-4 rounded-md flex flex-col items-center">
                 <div className="flex items-center mb-8">
                     <div>
-                        <p className="text-xl">{profileData.display_name}</p>
+                        <p className="text-xl">{userProfile.display_name}</p>
                         <button className="bg-error-container text-on-error-container py-2 px-4 rounded mt-4" onClick={onLogout}>
                             Logout
                         </button>
                     </div>
-                    {profileData.images && profileData.images[1] ? (
-                        <img src={profileData.images[1].url} alt="Profile" className="rounded-full w-24 h-24 ml-4 border-secondary-container border-4" />
+                    {userProfile.images && userProfile.images[1] ? (
+                        <img src={userProfile.images[1].url} alt="Profile" className="rounded-full w-24 h-24 ml-4 border-secondary-container border-4" />
                     ) : (
                         <div className="rounded-full w-24 h-24 mr-4 bg-gray-400"></div>
                     )}

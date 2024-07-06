@@ -16,7 +16,7 @@ export default {
         'on-secondary':'#FFFFFF',
         'secondary-container':'#DFE8CC',
         'on-secondary-container':'#121F0E',
-        'tertiary':'#386688',
+        'tertiary':'#386668',
         'on-tertiary':'#FFFFFF',
         'tertiary-container':'#BCEBEE',
         'on-tertiary-container':'#002021',

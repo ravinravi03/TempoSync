@@ -13,6 +13,7 @@ import MainLayout from "./components/Other/MainLayout";
 import AuthTestComponent from "./components/Testing/AuthTestComponent";
 import HookTesting from "./components/Testing/HookTesting";
 import HomePage from "./components/HomePage/HomePage";
+import { AppContextProvider } from "./AppContextProvider";
 
 const router = createBrowserRouter([
   {
@@ -34,6 +35,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AppContextProvider>
+      <RouterProvider router={router} />
+    </AppContextProvider>
   </React.StrictMode>
 );
