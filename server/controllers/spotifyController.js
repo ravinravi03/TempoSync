@@ -96,26 +96,32 @@ export const getPlaylistTracks = async(req,res) => {
     const spotifyApi = new SpotifyWebApi();
     const playlistId = req.query.playlistId;
 
+    const offset = parseInt(req.query.offset, 10) || 0;
+    const limit = parseInt(req.query.limit, 10) || 100;
+
     spotifyApi.setAccessToken(accessToken);
 
     try {
-        const playlistData = await spotifyApi.getPlaylistTracks(playlistId);
+        const playlistData = await spotifyApi.getPlaylistTracks(playlistId, {offset, limit});
         const tracks = playlistData.body.items;
 
-        const trackPromises = tracks.map(async (item) => {
+        const trackIds = tracks.map(item => item.track.id);
+        const audioFeaturesData = await spotifyApi.getAudioFeaturesForTracks(trackIds);
+        const audioFeatures = audioFeaturesData.body.audio_features;
+
+        const tracksWithTempo = tracks.map(item => {
             const track = item.track;
-            const audioFeaturesData = await spotifyApi.getAudioFeaturesForTrack(track.id);
-            track.tempo = audioFeaturesData.body.tempo;
+            const audioFeature = audioFeatures.find(af => af.id === track.id);
+            track.tempo = audioFeature ? audioFeature.tempo : null;
             return track;
         });
-
-        const tracksWithTempo = await Promise.all(trackPromises);
 
         res.json(tracksWithTempo);
     } catch (err) {
         if (err.statusCode === 401) {
             res.status(401).json({ error: 'Access token expired' });
         } else {
+            console.log(err)
             res.status(500).json({ error: 'Failed to retrieve playlist tracks' });
         }
     }
