@@ -27,7 +27,7 @@ To run the frontend of TempoSync, follow these steps:
 1. Open a terminal at the `frontend` folder.
 2. Ensure you have a `.env` file with the following variables:
    ```
-   REACT_APP_BACKEND_URL=http://localhost:5050
+   VITE_BACKEND_URL=http://localhost:5050
    ```
 4. Run the following command:
    ```

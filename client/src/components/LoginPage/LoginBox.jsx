@@ -1,10 +1,12 @@
 import React from 'react';
 import { FaSpotify } from 'react-icons/fa';
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 const LoginBox = () => {
 
     const handleLogin = () => {
-        window.location.href = 'http://localhost:5050/login/spotify';
+        window.location.href = `${backendUrl}/login/spotify`;
     }
 
     const handleCreateAccount = () => {

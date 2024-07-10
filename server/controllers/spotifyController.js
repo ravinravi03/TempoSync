@@ -4,6 +4,7 @@ import { createCookieValue, getCookieValue } from '../encryption/cookieUtils.js'
 
 const clientID = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const backendUrl = process.env.BACKEND_URL;
 
 export const getUserProfile = async(req,res) => {
     const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
@@ -273,7 +274,7 @@ export const refreshAccessToken = async(req,res) => {
     const spotifyApi = new SpotifyWebApi({
         clientId: clientID,
         clientSecret: clientSecret,
-        redirectUri: 'http://localhost:5050/login/spotify/callback'
+        redirectUri: `${backendUrl}/login/spotify/callback`
     });
 
     spotifyApi.setRefreshToken(decryptedRefreshToken)

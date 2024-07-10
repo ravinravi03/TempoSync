@@ -25,3 +25,4 @@
 *.njsproj
 *.sln
 *.sw?
+.vercel

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from 'axios';
 
-const backendUrl = 'http://localhost:5050';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const useGetUserPlaylists= () => {
     const [isLoading, setIsLoading] = useState(false);

@@ -7,13 +7,14 @@ dotenv.config();
 
 const clientID = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const backendUrl = process.env.BACKEND_URL;
 
 passport.use(
     new SpotifyStrategy(
         {
             clientID: clientID,
             clientSecret: clientSecret,
-            callbackURL: 'http://localhost:5050/login/spotify/callback',
+            callbackURL: `${backendUrl}/login/spotify/callback`,
             scope: ['playlist-modify-public', 'playlist-modify-private'],
         },
         async (accessToken, refreshToken, expires_in, profile, done) => {

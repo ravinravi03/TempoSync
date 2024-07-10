@@ -6,6 +6,8 @@ import { createCookieValue } from '../encryption/cookieUtils.js';
 
 const router = express.Router();
 
+const frontendURL = process.env.FRONTEND_URL;
+
 router.use(session({
     secret: 'mysecret',
     resave: false,
@@ -35,7 +37,7 @@ router.get('/spotify/callback',
             maxAge: 86400 * 1000,
             sameSite: 'strict'
         });
-        res.redirect('http://localhost:5173/main/home');
+        res.redirect(`${frontendURL}/main/home`);
     }
 );
 

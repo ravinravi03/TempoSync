@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { getCookie, setCookie } from "../../utilities/cookieUtils";
 
-const backendUrl = 'http://localhost:5050';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const useAuth = () => {
     const navigate = useNavigate();
