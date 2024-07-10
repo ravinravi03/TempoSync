@@ -3,7 +3,9 @@ import {useGetPlaylistTracks} from '../../hooks/useGetPlaylistTracks'
 import { getCookie } from '../../utilities/cookieUtils';
 import { useCreatePlaylist } from '../../hooks/useCreatePlaylist';
 import { useCreateDraftedPlaylist } from '../../hooks/user/useCreateDraftedPlaylist';
+import { useAddTracksToPlaylist } from '../../hooks/useAddTracksToPlaylist';
 import { useAppContext } from '../../AppContextProvider';
+import CircleLoader from "react-spinners/CircleLoader"
 
 const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   const {userProfile} = useAppContext();
@@ -13,9 +15,11 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   const [minTempo, setMinTempo] = useState(80);
   const [maxTempo, setMaxTempo] = useState(120);
   const [playlistTracks, setPlaylistTracks] = useState([]);
-  const {getPlaylistTracks, fetchAllTracks, isLoading, error} = useGetPlaylistTracks();
-  const {createPlaylist} = useCreatePlaylist();
+  const [createdPlaylistId, setCreatedPlaylistId] = useState(null);
+  const {fetchAllTracks, isLoading:isLoadingTracks, error} = useGetPlaylistTracks();
   const {createDraftedPlaylist} = useCreateDraftedPlaylist();
+  const {createPlaylist} = useCreatePlaylist();
+  const {addTracksToPlaylist, isLoading:isLoadingAddTracks} = useAddTracksToPlaylist();
 
   useEffect(() => {
     if (!isOpen) {
@@ -66,7 +70,23 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   
     console.log('Create Playlist', { name, description: finalDescription, isPublic, minTempo, maxTempo });
     console.log('Filtered Tracks:', filterTracksByTempoRange());
-    //createPlaylist(getCookie('accessToken'),)
+
+    createPlaylist(getCookie('accessToken'),name,finalDescription,isPublic)
+      .then(result => {
+        setCreatedPlaylistId(result.id);
+        console.log(result)
+      }).catch(err => {
+        console.error("Error occurred", error);
+
+        if (error.response && error.response.status === 404) {
+            setCreatedPlaylistId(null);
+        }
+      })
+
+    const filteredTracks = filterTracksByTempoRange();
+    const songs = filteredTracks.map(track => track.uri)
+
+    addTracksToPlaylist(getCookie('accessToken'),createdPlaylistId,songs)
   };
 
   const handleAddToDrafts = () => {
@@ -152,14 +172,26 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
           <label htmlFor="publicCheckbox" className="text-white">Make Playlist Public</label>
         </div>
         
-        <div className="flex justify-center gap-8 mt-auto">
-          <button className="bg-tertiary-container text-on-tertiary-container py-2 px-4 rounded" onClick={handleCreatePlaylist}>
-            Create
-          </button>
-          <button className="bg-tertiary-container text-on-tertiary-container py-2 px-4 rounded" onClick={handleAddToDrafts}>
-            Add to Drafts
-          </button>
-        </div>
+        {isLoadingTracks || isLoadingAddTracks ? (
+          <div className="flex justify-center items-center mt-auto">
+            <CircleLoader></CircleLoader>
+          </div>
+        ) : (
+          <div className="flex justify-center gap-8 mt-auto">
+            <button
+              className="bg-tertiary-container text-on-tertiary-container py-2 px-4 rounded"
+              onClick={handleCreatePlaylist}
+            >
+              Create
+            </button>
+            <button
+              className="bg-tertiary-container text-on-tertiary-container py-2 px-4 rounded"
+              onClick={handleAddToDrafts}
+            >
+              Add to Drafts
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

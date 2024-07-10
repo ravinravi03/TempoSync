@@ -18,8 +18,15 @@ const playlistSchema = new Schema({
     description: { type: String, required: true },
     maxTempo: { type: Number, required: true },
     minTempo: { type: Number, required: true },
-    songs: [songSchema]
+    songs: [songSchema],
+    createdAt: { type: Date, default: Date.now },
+    updatedAt: { type: Date, default: Date.now }
   });
+
+playlistSchema.pre('save', function(next) {
+    this.updatedAt = new Date();
+    next();
+});
 
 const Playlist = mongoose.model('Playlist',playlistSchema);
 export default Playlist;

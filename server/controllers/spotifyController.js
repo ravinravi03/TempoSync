@@ -203,8 +203,6 @@ export const createPlaylist = async (req,res) => {
         public: isPublic === 'true'
     };
 
-    console.log(options)
-
     spotifyApi.createPlaylist(playlistName,options)
         .then(data => {
             res.json(data.body)
@@ -238,6 +236,7 @@ export const addTracks = async(req,res) => {
             if(err.statusCode === 401){
                 res.status(401).json({error:"Access token invalid"})
             }else{
+                console.log(err);
                 res.status(500).json({error:"Error adding tracks to the playlist"})
             }
         });

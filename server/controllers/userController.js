@@ -70,8 +70,6 @@ export const createDraftedPlaylist = async (req, res) => {
     try {
       const { playlist_name, isPublic, description, maxTempo, minTempo, songs } = playlistDetails;
 
-      console.log(playlist_name)
-  
       const newPlaylist = new Playlist({
         playlist_name,
         isPublic,
@@ -89,7 +87,7 @@ export const createDraftedPlaylist = async (req, res) => {
         { new: true }
       );
   
-      res.status(201)//.json(user);
+      res.status(201).json(user);
     } catch (error) {
       console.error(error)
       res.status(500).json({ message: error.message });
