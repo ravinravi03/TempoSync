@@ -27,7 +27,7 @@ export const useCreateCreatedPlaylist = () => {
         };
 
         try {
-            let response = await axios.post(`${backendUrl}/user/${userId}/createdPlaylist`, data, {
+            let response = await axios.post(`${backendUrl}/db/user/${userId}/createdPlaylist`, data, {
                 headers: {
                     'Content-Type': 'application/json'
                 }

@@ -6,6 +6,7 @@ import { useCreateDraftedPlaylist } from '../../hooks/user/useCreateDraftedPlayl
 import { useAddTracksToPlaylist } from '../../hooks/useAddTracksToPlaylist';
 import { useAppContext } from '../../AppContextProvider';
 import CircleLoader from "react-spinners/CircleLoader"
+import { useCreateCreatedPlaylist } from '../../hooks/user/useCreateCreatedPlaylist';
 
 const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   const {userProfile} = useAppContext();
@@ -20,6 +21,7 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   const {createDraftedPlaylist} = useCreateDraftedPlaylist();
   const {createPlaylist} = useCreatePlaylist();
   const {addTracksToPlaylist, isLoading:isLoadingAddTracks} = useAddTracksToPlaylist();
+  const {createCreatedPlaylist} = useCreateCreatedPlaylist();
 
   useEffect(() => {
     if (!isOpen) {
@@ -75,6 +77,12 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
       .then(result => {
         setCreatedPlaylistId(result.id);
         console.log(result)
+
+        const filteredTracks = filterTracksByTempoRange();
+        const songs = filteredTracks.map(track => track.uri)
+    
+        addTracksToPlaylist(getCookie('accessToken'),createdPlaylistId,songs)
+
       }).catch(err => {
         console.error("Error occurred", error);
 
@@ -83,10 +91,15 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
         }
       })
 
-    const filteredTracks = filterTracksByTempoRange();
-    const songs = filteredTracks.map(track => track.uri)
+    
+    const createdPlaylist = {
+      id: createdPlaylistId,
+      maxTempo: maxTempo,
+      minTempo: minTempo,
+    }
 
-    addTracksToPlaylist(getCookie('accessToken'),createdPlaylistId,songs)
+    createCreatedPlaylist(userProfile.id,createdPlaylist);
+
   };
 
   const handleAddToDrafts = () => {
