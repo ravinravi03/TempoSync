@@ -1,14 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import {useGetPlaylistTracks} from '../../hooks/useGetPlaylistTracks'
 import { getCookie } from '../../utilities/cookieUtils';
+import { useCreatePlaylist } from '../../hooks/useCreatePlaylist';
+import { useCreateDraftedPlaylist } from '../../hooks/user/useCreateDraftedPlaylist';
+import { useAppContext } from '../../AppContextProvider';
 
 const PlaylistModal = ({ isOpen, onClose, playlist }) => {
+  const {userProfile} = useAppContext();
+  const [playlistName, setPlaylistName] = useState('');
   const [description, setDescription] = useState('');
   const [isPublic, setIsPublic] = useState(false);
   const [minTempo, setMinTempo] = useState(80);
   const [maxTempo, setMaxTempo] = useState(120);
   const [playlistTracks, setPlaylistTracks] = useState([]);
   const {getPlaylistTracks, fetchAllTracks, isLoading, error} = useGetPlaylistTracks();
+  const {createPlaylist} = useCreatePlaylist();
+  const {createDraftedPlaylist} = useCreateDraftedPlaylist();
 
   useEffect(() => {
     if (!isOpen) {
@@ -34,6 +41,7 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   }, [playlist])
 
   const resetStates = () => {
+    setPlaylistName('');
     setDescription('');
     setIsPublic(false);
     setMinTempo(80);
@@ -52,12 +60,44 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   if (!isOpen) return null;
 
   const handleCreatePlaylist = () => {
-    console.log('Create Playlist', { description, isPublic, minTempo, maxTempo });
+    const name = playlistName || `${playlist.name} (TempoSynced)`;
+    const defaultDescription = "A playlist created by TempoSync";
+    const finalDescription = description.trim() ? description : defaultDescription;
+  
+    console.log('Create Playlist', { name, description: finalDescription, isPublic, minTempo, maxTempo });
     console.log('Filtered Tracks:', filterTracksByTempoRange());
+    //createPlaylist(getCookie('accessToken'),)
   };
 
   const handleAddToDrafts = () => {
-    console.log('Add to Drafts', { description, isPublic, minTempo, maxTempo });
+    const name = playlistName || `${playlist.name} (TempoSynced)`;
+    const defaultDescription = "A playlist created by TempoSync";
+    const finalDescription = description.trim() ? description : defaultDescription;
+    const filteredTracks = filterTracksByTempoRange()
+  
+    console.log('Add to drafts', { name, description: finalDescription, isPublic, minTempo, maxTempo });  
+    console.log('Filtered Tracks:', filteredTracks);
+
+    const songs = filteredTracks.map(track => ({
+      song_id: track.id,
+      album_name: track.album.name,
+      song_title: track.name,
+      duration_ms: track.duration_ms,
+      artists: track.artists.map(artist => artist.name).join(', '),
+      tempo: track.tempo,
+      album_art: track.album.images.length > 0 ? track.album.images[0].url : ''
+    }));
+
+    const playlistDetails = {
+      playlist_name: name,
+      isPublic: isPublic,
+      description: finalDescription,
+      maxTempo: maxTempo,
+      minTempo: minTempo,
+      songs: songs
+    }
+    console.log(playlistDetails)
+    createDraftedPlaylist(userProfile.id,playlistDetails)
   };
 
   return (
@@ -76,16 +116,23 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
             type="number"
             className="w-16 p-2 text-center text-black rounded"
             value={minTempo}
-            onChange={(e) => setMinTempo(e.target.value)}
+            onChange={(e) => setMinTempo(parseInt(e.target.value))}
           />
           <span className="text-white mx-4">to</span>
           <input
             type="number"
             className="w-16 p-2 text-center text-black rounded"
             value={maxTempo}
-            onChange={(e) => setMaxTempo(e.target.value)}
+            onChange={(e) => setMaxTempo(parseInt(e.target.value))}
           />
         </div>
+
+        <textarea
+          className="w-full p-2 text-black rounded mb-4"
+          placeholder = {`Name this playlist, default is \'${playlist.name} (TempoSynced)\'`}
+          value={playlistName}
+          onChange={(e) => setPlaylistName(e.target.value)}
+        />
 
         <textarea
           className="w-full p-2 text-black rounded mb-4"
