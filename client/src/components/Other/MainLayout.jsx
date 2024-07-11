@@ -10,7 +10,7 @@ const MainLayout = () => {
     const {getUserProfile, isLoading, error} = useGetUserProfile();
     const {setUserProfile} = useAppContext();
 
-    useAuth();
+    //useAuth();
 
     useEffect(() => {
         getUserProfile(getCookie('accessToken'))
