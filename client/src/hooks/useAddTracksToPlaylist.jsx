@@ -26,7 +26,8 @@ export const useAddTracksToPlaylist = () => {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
-                    }
+                    },
+                    withCredentials: true
                 });
 
                 console.log(`Batch ${i + 1} added successfully`, response.data);

@@ -19,7 +19,8 @@ export const useRemoveTracksFromPlaylist = () =>{
                 headers:{
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
-                }
+                },
+                withCredentials: true
             });
             return response.data;
 

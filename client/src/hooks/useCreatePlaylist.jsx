@@ -20,7 +20,8 @@ export const useCreatePlaylist = () =>{
                 headers:{
                     'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
-                }
+                },
+                withCredentials: true
             });
             console.log(response.data)
             return response.data;

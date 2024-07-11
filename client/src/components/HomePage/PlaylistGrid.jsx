@@ -13,19 +13,25 @@ const PlaylistGrid = () => {
     const [selectedPlaylist, setSelectedPlaylist] = useState(null);
     const [isModalOpen, setModalOpen] = useState(false);
 
-    useEffect(()=>{ 
-        getUserPlaylists(getCookie('accessToken'),userProfile.id)
-            .then(result => { 
-                setUserPlaylists(result.items)
-                console.log(result)
-            }).catch(err =>{
-                console.error("Error occurred", error);
+    useEffect(() => {
+        const fetchUserPlaylists = async () => {
+            if (userProfile && userProfile.id) {
+                try {
+                    const result = await getUserPlaylists(getCookie('accessToken'), userProfile.id);
+                    setUserPlaylists(result.items);
+                    console.log(result);
+                } catch (error) {
+                    console.error("Error occurred", error);
 
-                if (error.response && error.response.status === 404) {
-                    setUserPlaylists([]);
+                    if (error.response && error.response.status === 404) {
+                        setUserPlaylists([]);
+                    }
                 }
-            })
-    },[])
+            }
+        };
+
+        fetchUserPlaylists();
+    }, [userProfile]);
 
     const openModal = (playlist) => {
         setSelectedPlaylist(playlist);

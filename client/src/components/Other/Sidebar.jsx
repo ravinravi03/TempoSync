@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../AppContextProvider';
 
 const Sidebar = () => {
-    const {userProfile} = useAppContext();
+    const {userProfile, setUserProfile} = useAppContext();
     const navigate = useNavigate();
 
     const onLogout = () => {
         invalidateCookie('accessToken')
         invalidateCookie('refreshToken')
+        setUserProfile(null);
         navigate('/login')
     }
 
