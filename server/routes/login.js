@@ -31,7 +31,7 @@ router.get('/spotify/callback',
             maxAge: 86400 * 1000,
             sameSite: 'None',
             path: '/',
-            domain: process.env.NODE_ENV === 'development' ? '.localhost' : '.vercel.app'
+            domain: process.env.NODE_ENV === 'development' ? '.localhost' : 'tempo-sync-client-git-main-ravins-projects-ebbb7533.vercel.app'
         });
         res.cookie('refreshToken', createCookieValue(req.user.refreshToken), { 
             httpOnly: false,
@@ -39,7 +39,7 @@ router.get('/spotify/callback',
             maxAge: 86400 * 1000,
             sameSite: 'None',
             path: '/',
-            domain: process.env.NODE_ENV === 'development' ? '.localhost' : '.vercel.app'
+            domain: process.env.NODE_ENV === 'development' ? '.localhost' : 'tempo-sync-client-git-main-ravins-projects-ebbb7533.vercel.app'
         });
         res.redirect(`${frontendURL}/main/home`);
     }
