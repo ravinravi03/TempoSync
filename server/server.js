@@ -21,6 +21,7 @@ app.use('/db', playlistRouter);
 mongoose.connect(process.env.ATLAS_URI)
 // Only after connecting do we start listening for server requests
   .then(() => {
+    console.log("MongoDB connected");
     // start the Express server
     app.listen(PORT, () => {
       console.log(`Server listening on port ${PORT}`);
@@ -30,3 +31,5 @@ mongoose.connect(process.env.ATLAS_URI)
   .catch((error) => {
     console.log(error)
   })
+
+export default app;
