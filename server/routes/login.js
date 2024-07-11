@@ -31,6 +31,7 @@ router.get('/spotify/callback',
             maxAge: 86400 * 1000,
             sameSite: 'None',
             path: '/',
+            domain: process.env.NODE_ENV === 'development' ? '.localhost' : '.vercel.app'
         });
         res.cookie('refreshToken', createCookieValue(req.user.refreshToken), { 
             httpOnly: false,
@@ -38,6 +39,7 @@ router.get('/spotify/callback',
             maxAge: 86400 * 1000,
             sameSite: 'None',
             path: '/',
+            domain: process.env.NODE_ENV === 'development' ? '.localhost' : '.vercel.app'
         });
         res.redirect(`${frontendURL}/main/home`);
     }
