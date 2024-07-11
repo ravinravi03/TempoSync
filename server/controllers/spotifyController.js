@@ -7,6 +7,7 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const backendUrl = process.env.BACKEND_URL;
 
 export const getUserProfile = async(req,res) => {
+    console.log(req.headers);
     const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
 
     if(!accessToken){

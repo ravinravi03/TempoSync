@@ -9,6 +9,7 @@ export const useGetUserProfile = () => {
     const [error, setError] = useState(null);
 
     const getUserProfile = async (accessToken) => {
+        console.log('The accesstoken is: ' + accessToken)
         setIsLoading(true);
         try {
             let response = await axios.get((`${backendUrl}/spotify/profile`),{
