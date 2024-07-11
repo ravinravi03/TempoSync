@@ -1,4 +1,5 @@
 export function getCookie(name) {
+    console.log(document.cookie)
     const cookies = document.cookie.split(';');
     for (let cookie of cookies) {
       const [cookieName, cookieValue] = cookie.trim().split('=');
