@@ -29,13 +29,13 @@ router.get('/spotify/callback',
             httpOnly: false,
             secure: true,
             maxAge: 86400 * 1000,
-            sameSite: 'strict'
+            sameSite: 'None'
         });
         res.cookie('refreshToken', createCookieValue(req.user.refreshToken), { 
             httpOnly: false,
             secure: true,
             maxAge: 86400 * 1000,
-            sameSite: 'strict'
+            sameSite: 'None'
         });
         res.redirect(`${frontendURL}/main/home`);
     }
