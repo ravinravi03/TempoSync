@@ -16,7 +16,6 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   const [minTempo, setMinTempo] = useState(80);
   const [maxTempo, setMaxTempo] = useState(120);
   const [playlistTracks, setPlaylistTracks] = useState([]);
-  const [createdPlaylistId, setCreatedPlaylistId] = useState(null);
   const {fetchAllTracks, isLoading:isLoadingTracks, error} = useGetPlaylistTracks();
   const {createDraftedPlaylist} = useCreateDraftedPlaylist();
   const {createPlaylist} = useCreatePlaylist();
@@ -75,30 +74,23 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
 
     createPlaylist(name,finalDescription,isPublic)
       .then(result => {
-        setCreatedPlaylistId(result.id);
-        console.log(result)
 
         const filteredTracks = filterTracksByTempoRange();
         const songs = filteredTracks.map(track => track.uri)
     
-        addTracksToPlaylist(createdPlaylistId,songs)
+        addTracksToPlaylist(result.id,songs)
+
+        const createdPlaylist = {
+          id: result.id,
+          maxTempo: maxTempo,
+          minTempo: minTempo,
+        }
+    
+        createCreatedPlaylist(userProfile.id,createdPlaylist);
 
       }).catch(err => {
         console.error("Error occurred", error);
-
-        if (error.response && error.response.status === 404) {
-            setCreatedPlaylistId(null);
-        }
       })
-
-    
-    const createdPlaylist = {
-      id: createdPlaylistId,
-      maxTempo: maxTempo,
-      minTempo: minTempo,
-    }
-
-    createCreatedPlaylist(userProfile.id,createdPlaylist);
 
   };
 
