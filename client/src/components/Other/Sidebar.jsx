@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaHome } from 'react-icons/fa';
 import { getCookie, invalidateCookie } from '../../utilities/cookieUtils';
-import { useGetUserProfile } from '../../hooks/useGetUserProfile';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../../AppContextProvider';
 

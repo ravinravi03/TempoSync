@@ -13,7 +13,7 @@ const MainLayout = () => {
     //useAuth();
 
     useEffect(() => {
-        getUserProfile(getCookie('accessToken'))
+        getUserProfile()
             .then(result => {
                 setUserProfile(result);
             })

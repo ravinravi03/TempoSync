@@ -55,7 +55,7 @@ const HookTesting = () => {
     };
 
     useEffect(() => {
-        getUserProfile(getCookie('accessToken'))
+        getUserProfile()
             .then(result => {
                 setProfileData(result);
                 console.log(result);

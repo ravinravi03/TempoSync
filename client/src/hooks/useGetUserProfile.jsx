@@ -8,12 +8,11 @@ export const useGetUserProfile = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const getUserProfile = async (accessToken) => {
+    const getUserProfile = async () => {
         setIsLoading(true);
         try {
             let response = await axios.get((`${backendUrl}/spotify/profile`),{
                 headers:{
-                    'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
                 },
                 withCredentials: true
