@@ -1,6 +1,7 @@
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
+import cookieParser from 'cookie-parser';
 import loginRouter from "./routes/login.js";
 import spotifyRouter from "./routes/spotify.js"
 import userRouter from "./routes/user.js"
@@ -9,6 +10,7 @@ import playlistRouter from "./routes/playlist.js"
 const PORT = process.env.PORT || 5050;
 const app = express();
 
+app.use(cookieParser());
 
 app.use(cors({
   origin: `${process.env.FRONTEND_URL}`,

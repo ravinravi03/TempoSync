@@ -7,7 +7,7 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const backendUrl = process.env.BACKEND_URL;
 
 export const getUserProfile = async(req,res) => {
-    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
+    const accessToken = getCookieValue(req.cookies.accessToken);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -30,7 +30,7 @@ export const getUserProfile = async(req,res) => {
 }
 
 export const getUserPlaylists = async(req,res)=>{
-    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
+    const accessToken = getCookieValue(req.cookies.accessToken);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -55,7 +55,7 @@ export const getUserPlaylists = async(req,res)=>{
 }
 
 export const getTrackWithTempo = async(req,res)=>{
-    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
+    const accessToken = getCookieValue(req.cookies.accessToken);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -88,7 +88,7 @@ export const getTrackWithTempo = async(req,res)=>{
 }
 
 export const getPlaylistTracks = async(req,res) => {
-    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
+    const accessToken = getCookieValue(req.cookies.accessToken);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -129,7 +129,7 @@ export const getPlaylistTracks = async(req,res) => {
 }
 
 export const searchTracksWithTempo = async(req,res) => {
-    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
+    const accessToken = getCookieValue(req.cookies.accessToken);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -188,7 +188,7 @@ export const searchTracksWithTempo = async(req,res) => {
 }
 
 export const createPlaylist = async (req,res) => {
-    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
+    const accessToken = getCookieValue(req.cookies.accessToken);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -218,7 +218,7 @@ export const createPlaylist = async (req,res) => {
 }
 
 export const addTracks = async(req,res) => {
-    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
+    const accessToken = getCookieValue(req.cookies.accessToken);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -244,7 +244,7 @@ export const addTracks = async(req,res) => {
 }
 
 export const removeTracks = async(req,res) => {
-    const accessToken = getCookieValue(req.headers.authorization.split(' ')[1]);
+    const accessToken = getCookieValue(req.cookies.accessToken);
 
     if(!accessToken){
         return res.status(401).json({error:'No access token found'})
@@ -269,7 +269,7 @@ export const removeTracks = async(req,res) => {
 }
 
 export const refreshAccessToken = async(req,res) => {
-    const decryptedRefreshToken = getCookieValue(req.body.refreshToken);
+    const decryptedRefreshToken = getCookieValue(req.cookies.refreshToken);
 
     const spotifyApi = new SpotifyWebApi({
         clientId: clientID,
@@ -281,7 +281,16 @@ export const refreshAccessToken = async(req,res) => {
 
     spotifyApi.refreshAccessToken()
         .then(data =>{
-            res.json(createCookieValue(data.body.access_token));
+            res.cookie('accessToken', createCookieValue(data.body.access_token), {
+                httpOnly: false,
+                secure: true,
+                maxAge: 86400 * 1000,
+                sameSite: 'None',
+                path: '/',
+                domain: process.env.NODE_ENV === 'development' ? '.localhost' : 'temposync-server-awcnt37iza-uc.a.run.app'
+              });
+          
+              res.json({ message: 'Access token refreshed successfully' });
         })
         .catch(err => {
             if (err.statusCode === 400) {
