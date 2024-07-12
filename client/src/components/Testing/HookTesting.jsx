@@ -47,7 +47,7 @@ const HookTesting = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const result = await createPlaylist(getCookie('accessToken'), playlistName, description, isPublic);
+            const result = await createPlaylist(playlistName, description, isPublic);
             console.log('Playlist created:', result);
         } catch (error) {
             console.error('Error creating playlist:', error);
@@ -70,7 +70,7 @@ const HookTesting = () => {
     }, []);
 
     const handleClickGetUserPlaylists = () => {
-        getUserPlaylists(getCookie('accessToken'), profileData.id)
+        getUserPlaylists(profileData.id)
             .then(result => {
                 console.log(result);
             })
@@ -80,7 +80,7 @@ const HookTesting = () => {
     };
 
     const handleClickGetTrack = () => {
-        getTrack(getCookie('accessToken'), inputValue)
+        getTrack(inputValue)
             .then(result => {
                 console.log(result);
             })
@@ -90,7 +90,7 @@ const HookTesting = () => {
     };
 
     const handleClickGetPlaylistTracks = () => {
-        getPlaylistTracks(getCookie('accessToken'), inputValue2)
+        getPlaylistTracks(inputValue2)
             .then(result => {
                 console.log(result);
             })
@@ -100,7 +100,7 @@ const HookTesting = () => {
     };
 
     const handleClickGetSearch = () => {
-        getSearch(getCookie('accessToken'), searchValue, minTempo, maxTempo)
+        getSearch(searchValue, minTempo, maxTempo)
             .then(result => {
                 console.log(result);
             })

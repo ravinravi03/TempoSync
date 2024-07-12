@@ -32,7 +32,7 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
   useEffect(() => {
     console.log(playlist)
     if(playlist){
-      fetchAllTracks(getCookie('accessToken'),playlist.id,playlist.tracks.total)
+      fetchAllTracks(playlist.id,playlist.tracks.total)
         .then(result => {
           setPlaylistTracks(result);
           console.log(result)
@@ -73,7 +73,7 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
     console.log('Create Playlist', { name, description: finalDescription, isPublic, minTempo, maxTempo });
     console.log('Filtered Tracks:', filterTracksByTempoRange());
 
-    createPlaylist(getCookie('accessToken'),name,finalDescription,isPublic)
+    createPlaylist(name,finalDescription,isPublic)
       .then(result => {
         setCreatedPlaylistId(result.id);
         console.log(result)
@@ -81,7 +81,7 @@ const PlaylistModal = ({ isOpen, onClose, playlist }) => {
         const filteredTracks = filterTracksByTempoRange();
         const songs = filteredTracks.map(track => track.uri)
     
-        addTracksToPlaylist(getCookie('accessToken'),createdPlaylistId,songs)
+        addTracksToPlaylist(createdPlaylistId,songs)
 
       }).catch(err => {
         console.error("Error occurred", error);

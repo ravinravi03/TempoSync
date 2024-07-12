@@ -7,12 +7,11 @@ export const useGetTrack = () =>{
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const getTrack = async (accessToken, trackId) => {
+    const getTrack = async (trackId) => {
         setIsLoading(true);
         try {
             let response = await axios.get((`${backendUrl}/spotify/track?trackId=${trackId}`),{
                 headers:{
-                    'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
                 },
                 withCredentials: true

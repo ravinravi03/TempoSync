@@ -7,12 +7,11 @@ export const useGetSearch = () =>{
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const getSearch = async (accessToken, searchQuery, minTempo, maxTempo) => {
+    const getSearch = async (searchQuery, minTempo, maxTempo) => {
         setIsLoading(true);
         try {
             let response = await axios.get((`${backendUrl}/spotify/search?searchQuery=${searchQuery}&minTempo=${minTempo}&maxTempo=${maxTempo}`),{
                 headers:{
-                    'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
                 },
                 withCredentials: true

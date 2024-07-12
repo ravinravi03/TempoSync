@@ -7,7 +7,7 @@ export const useRemoveTracksFromPlaylist = () =>{
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const removeTracksFromPlaylist = async (accessToken, playlistId, tracks) => {
+    const removeTracksFromPlaylist = async (playlistId, tracks) => {
         setIsLoading(true);
         const data = {
             playlistId: playlistId,
@@ -17,7 +17,6 @@ export const useRemoveTracksFromPlaylist = () =>{
             let response = await axios.delete((`${backendUrl}/spotify/playlist/removeTracks`),data,
             {
                 headers:{
-                    'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
                 },
                 withCredentials: true

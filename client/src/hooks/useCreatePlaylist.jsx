@@ -7,7 +7,7 @@ export const useCreatePlaylist = () =>{
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const createPlaylist = async (accessToken, playlistName, description, isPublic) => {
+    const createPlaylist = async (playlistName, description, isPublic) => {
         setIsLoading(true);
         const data = {
             playlistName: playlistName,
@@ -18,7 +18,6 @@ export const useCreatePlaylist = () =>{
             let response = await axios.post((`${backendUrl}/spotify/playlist`),data,
             {
                 headers:{
-                    'Authorization': `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
                 },
                 withCredentials: true

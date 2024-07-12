@@ -17,7 +17,7 @@ const PlaylistGrid = () => {
         const fetchUserPlaylists = async () => {
             if (userProfile && userProfile.id) {
                 try {
-                    const result = await getUserPlaylists(getCookie('accessToken'), userProfile.id);
+                    const result = await getUserPlaylists(userProfile.id);
                     setUserPlaylists(result.items);
                     console.log(result);
                 } catch (error) {

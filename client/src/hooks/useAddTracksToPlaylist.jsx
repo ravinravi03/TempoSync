@@ -7,7 +7,7 @@ export const useAddTracksToPlaylist = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const addTracksToPlaylist = async (accessToken, playlistId, tracks) => {
+    const addTracksToPlaylist = async (playlistId, tracks) => {
         setIsLoading(true);
 
         try {
@@ -24,7 +24,6 @@ export const useAddTracksToPlaylist = () => {
 
                 let response = await axios.post(`${backendUrl}/spotify/playlist/addTracks`, data, {
                     headers: {
-                        'Authorization': `Bearer ${accessToken}`,
                         'Content-Type': 'application/json'
                     },
                     withCredentials: true
