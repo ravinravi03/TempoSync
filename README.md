@@ -21,7 +21,7 @@ To run the backend server, follow these steps:
    BACKEND_URL=http://localhost:5050
    NODE_ENV=development
    ```
-   You can source the atlas URI by generating a MongoDB database, the spotify client ids through the Spotify Developer Dashboard, and the encrpyt key from 'https://acte.ltd/utils/randomkeygen'.
+   You can source the atlas URI by generating a MongoDB database, the spotify client ids through the Spotify Developer Dashboard, and the encryption key from 'https://acte.ltd/utils/randomkeygen'.
 4. Run the following command:
    ```
    npm start
