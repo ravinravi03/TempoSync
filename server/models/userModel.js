@@ -6,7 +6,7 @@ const Schema = mongoose.Schema;
 const userSchema = new Schema({
     display_name: { type: String, required: true },
     id: { type: String, required: true, unique: true, index: true },
-    profile_picture: { type: String, required: true },
+    profile_picture: { type: String, required: false },
     draftedPlaylists: [{ type: Schema.Types.ObjectId, ref: 'Playlist' }],
     createdPlaylists: [
       {
