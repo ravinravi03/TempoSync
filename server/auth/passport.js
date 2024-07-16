@@ -25,7 +25,7 @@ passport.use(
                     user = new User({
                         display_name: profile.displayName,
                         id: profile.id,
-                        profile_picture: profile.photos ? profile.photos[1].value : null,
+                        profile_picture: profile.photos && profile.photos.length > 0 ? profile.photos[0].value : null,
                     });
                     await user.save();
                 }
