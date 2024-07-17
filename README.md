@@ -1,6 +1,9 @@
 # TempoSync
 
-TempoSync is a personal project aimed at enhancing my skills with JavaScript and React frameworks. It allows users to create playlists which contains songs of a certain tempo range
+TempoSync is a personal project aimed at enhancing my skills with JavaScript and React frameworks. It allows users to create playlists which contains songs of a certain tempo range.
+
+  <img width="420" alt="Screenshot 2024-07-17 at 11 46 11 AM" src="https://github.com/user-attachments/assets/576605bc-9077-4d80-b3d0-7ae3a7123b3b">
+  <img width="420" alt="Screenshot 2024-07-17 at 11 46 25 AM" src="https://github.com/user-attachments/assets/9e9b3fb4-6340-482c-b7b9-31a9182b5fc3">
 
 ## Important Note on Deployment
 
@@ -9,6 +12,7 @@ The Vercel deployment link on this GitHub repository will not work past the logi
 ## Running the Backend
 
 To run the backend server, follow these steps:
+
 
 1. Open a terminal at the `server` folder.
 2. Ensure you have a `config.env` file with the following variables:
